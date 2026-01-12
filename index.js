@@ -16,30 +16,14 @@ app.get("/", (req, res) => {
   res.send("Backend running");
 });
 
-// MongoDB connect (Vercel safe)
-let cached = global.mongoose;
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
-}
-
-async function dbConnect() {
-  if (cached.conn) return cached.conn;
-
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(process.env.MONGO_URI, {
-      bufferCommands: false,
-      serverSelectionTimeoutMS: 5000,
-    }).then((mongoose) => mongoose);
-  }
-
-  cached.conn = await cached.promise;
-  return cached.conn;
-}
-
-// IMPORTANT: connect BEFORE exporting app
-dbConnect().then(() => {
-  console.log("MongoDB connected");
-});
+// ✅ SIMPLE MongoDB connect (WORKS on Vercel)
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("MongoDB connected");
+  })
+  .catch((err) => {
+    console.error("MongoDB error:", err);
+  });
 
 module.exports = app;
