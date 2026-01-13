@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -14,19 +15,23 @@ app.get("/", (req, res) => {
   res.send("Backend running");
 });
 
-let isConnected = false;
+const PORT = process.env.PORT || 5000;
 
-async function connectDB() {
-  if (isConnected) return;
+async function startServer() {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 5000,
+    });
 
-  await mongoose.connect(process.env.MONGO_URI, {
-    serverSelectionTimeoutMS: 5000,
-  });
+    console.log("MongoDB connected");
 
-  isConnected = true;
-  console.log("MongoDB connected");
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+
+  } catch (err) {
+    console.error("DB connection failed:", err);
+  }
 }
 
-connectDB();
-
-module.exports = app;
+startServer();
