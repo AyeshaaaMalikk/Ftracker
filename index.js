@@ -7,8 +7,14 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-  origin: "https://ftracker-frontend.vercel.app"
+  origin: [
+    "https://ftracker-frontend.vercel.app",
+    "https://ftracker-frontend-git-main-ayeshas-projects-d815f7ff.vercel.app"
+  ],
+  methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
+  allowedHeaders: ["Content-Type"]
 }));
+
 
 
 
