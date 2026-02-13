@@ -6,11 +6,7 @@ const cors = require("cors");
 const app = express();
 
 app.use(express.json());
-app.use(cors({
-  origin: "https://ftracker-frontend.vercel.app",
-  methods: ["GET", "POST", "DELETE", "PUT"],
-  credentials: true
-}));
+app.use(cors());
 
 
 const transactionRoutes = require("./routes/transactionroutes");
