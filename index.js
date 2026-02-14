@@ -15,6 +15,7 @@ app.use(cors({
   methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
   allowedHeaders: ["Content-Type"]
 }));
+app.options("*", cors());
 
 
 const transactionRoutes = require("./routes/transactionroutes");
